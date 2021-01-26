@@ -1,0 +1,40 @@
+{
+  "name": "mern-multiauth",
+  "version": "1.0.0",
+  "description": "this is mern-multiauth using nodejs\u001b[D",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JubaerHossain/mern-multiauth.git"
+  },
+  "keywords": [
+    "node",
+    "multiauth\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[C-"
+  ],
+  "author": "jubaer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JubaerHossain/mern-multiauth/issues"
+  },
+  "homepage": "https://github.com/JubaerHossain/mern-multiauth#readme",
+  "dependencies": {
+    "accesscontrol": "^2.2.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cross-env": "^7.0.3",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "gravatar": "^1.8.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.11.13",
+    "morgan": "^1.10.0",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "validator": "^13.5.2"
+  },
+  "devDependencies": {}
+}
