@@ -1,10 +1,11 @@
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const validateRegister = require('../validations/register');
+const validateLogin = require('../validations/login');
 const User = require('../models/userModel');
+
 let createUser = (req, res, next) => {
-     console.log('req.body');
-     console.log(req.body);
     const { errors, isValid } = validateRegister(req.body);
 
     if(!isValid) {
@@ -52,6 +53,70 @@ let createUser = (req, res, next) => {
         });
 };
 
+let login = (req, res, next) => {
+    const { errors, isValid } = validateLogin(req.body);
+
+    if(!isValid) {
+        return res.status(400).json(errors);
+    }
+
+    const email = req.body.email;
+    const password = req.body.password;
+
+    User.findOne({email})
+        .then(user => {
+            if(!user) {
+                errors.email = 'User not found'
+                return res.status(404).json(errors);
+            }
+            bcrypt.compare(password, user.password)
+                    .then(isMatch => {
+                        if(isMatch) {
+                            const payload = {
+                                id: user.id,
+                                name: user.name,
+                                avatar: user.avatar
+                            }
+                            jwt.sign(payload, process.env.SECRET, {
+                                expiresIn: 36000
+                            }, (err, token) => {
+                                if(err) console.error('There is some error in token', err);
+                                else {
+                                    res.json({
+                                        success: true,
+                                        token: token,
+                                        user:user
+                                    });
+                                }
+                            });
+                        }
+                        else {
+                            errors.password = 'Incorrect Password';
+                            return res.status(400).json(errors);
+                        }
+                    });
+        });
+};
+
+let users = (req, res, next) => { 
+    User.find( (err, User) => {
+        if(err){
+            return res.status(404).json({
+                message: err,
+                success: false
+            });
+        }
+        else {
+            return res.status(200).json({
+                success: true,
+                data: User
+            });
+        }
+    });
+}
+
 module.exports = {
     createUser,
+    users,
+    login
 }
